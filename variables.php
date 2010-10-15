@@ -7,6 +7,8 @@ class MultiVarVariables {
   var $variables = null;
   var $table_name = null;
   var $keys = null;
+  var $values = null;
+  var $option_name = 'multivar_values';
   
   function __construct($wpdb = null, $table_name = null){
     $this->wpdb = $wpdb;
@@ -18,6 +20,13 @@ class MultiVarVariables {
       $this->variables = $this->queryAll();
     }
     return $this->variables;
+  }
+  
+  function values(){
+    if($this->values == null){
+      $this->values = get_option($this->option_name, array());
+    }
+    return $this->values;
   }
   
   function hasDb(){
@@ -51,6 +60,42 @@ class MultiVarVariables {
       return false;
     }
     return true;
+  }
+  
+  function idForName($name){
+    foreach ($this->all() as $index => $variable) {
+      if (strtoupper($variable['key_name']) == strtoupper($name)) {
+        return intval($variable['id']);
+      }
+    }
+    return false;
+  }
+  
+  function valueFor($id_or_name){
+    if(is_int($id_or_name)){
+      //look up value by id
+      $values = &$this->values();
+      return $values[$id_or_name];
+    }else{
+      $id = $this->idForName($id_or_name);
+      //look up id for given string
+      return $this->valueFor($id);
+    }
+    
+  }
+  
+  function setValueFor($id_or_name, $value){
+    if(is_int($id_or_name)){
+      //look up value by id
+      $this->values();
+      $this->values[$id_or_name] = $value;
+    }else{
+      $id = $this->idForName($id_or_name);
+    }
+  }
+  
+  function save(){
+    add_option($this->option_name, $this->values);
   }
   
 }

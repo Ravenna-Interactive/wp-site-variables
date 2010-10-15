@@ -24,10 +24,27 @@ function multivars_init() {
   add_action('admin_menu', 'multivars_template_menu');
   
   multivars_admin_save();
-  
+  multivars_options_save();
 }
 
 add_action('init', 'multivars_init');
+
+function multivar_value($name, $default = '', $echo = true) {
+  
+  global $multivars_variables;
+  
+  $value = $multivars_variables->valueFor($name);
+  if(empty($value)){
+    $value = $default;
+  }
+  
+  if($echo) echo $value;
+  
+  return $value;
+  
+  
+}
+
 
 function multivars_template_menu(){
 
@@ -65,6 +82,26 @@ function multivars_admin_save(){
     wp_redirect( add_query_arg( array( 'updated' => 'true' ), wp_get_referer() ) );
     exit;
   }
+}
+
+function multivars_options_save(){
+  global $multivars_table_name, $multivars_variables, $wpdb;
+  
+  if ( ! current_user_can( 'manage_options' ) )
+    wp_die( __( 'You do not have permission to access this page.' ) );
+  
+  
+  if ($_GET['page'] == 'multivars-values') {
+    if ( $_POST['action'] == 'save_changes') {
+      
+      foreach ($_POST['multivars'] as $id => $value) {
+        $multivars_variables->setValueFor(intval($id), $value);
+      }
+      $multivars_variables->save();
+      
+    }
+  }
+  
 }
 
 
@@ -221,6 +258,10 @@ function multivars_options(){
   
   global $multivars_table_name, $multivars_variables, $wpdb;
   
+  if ( ! current_user_can( 'manage_options' ) )
+    wp_die( __( 'You do not have permission to access this page.' ) );
+  
+  
   ?>
   
   <div class="wrap">
@@ -228,6 +269,7 @@ function multivars_options(){
     <form method="post" action="">
       <?php wp_nonce_field('update-options'); ?>
       <p class="submit">
+        <input type="hidden" name="action" value="save_changes" />
          <input type="submit" name="save_changes" value="<?php _e('Save Changes') ;?>" />
       </p>
       <table class="form-table">
@@ -240,7 +282,7 @@ function multivars_options(){
             <?php if(!empty($variable['description'])): ?>
               <label for="multivar_<?php echo $variable['id'] ?>"><p><?php echo $variable['description'] ?></p></label>
             <?php endif; ?>
-            <textarea id="multivar_<?php echo $variable['id'] ?>" cols="70" rows="3"></textarea>
+            <textarea id="multivar_<?php echo $variable['id'] ?>" name="multivars[<?php echo $variable['id'] ;?>]" cols="70" rows="3"><?php echo $multivars_variables->valueFor(intval($variable['id'])) ;?></textarea>
           </td>
         </tr>
         <?php endforeach; ?>

@@ -1,1 +1,17 @@
-A WordPress Plugin
+A WordPress Plugin ============================================
+
+Allows a multisite install to provide site defined variables that can be used
+throughout the site.
+
+After installing for the plugin to function the Network Admin can define a
+list of variables that can be configured for each site. This can be configured
+by using the "Super Admin -> Site Variables" menu in the admin.
+
+Once variables are defined. Site admins can configure the values for these
+variables by using the "Settings -> Site Variables" menu item.
+
+Use this template tag to use the variables in your theme:
+
+  <?php multivars_value('Variable Name'); ?>
+  
+
