@@ -38,7 +38,7 @@ __Arguments__:
 1. `$variable_name`: _`String`_ (_Required_) - Variable name as defined in the options panel.
 2. `$default_value`: _`String`_ - If a value has not been
 defined for the give `$variable_name` (default: `''`)
-3. `$echo`: _`Boolean`_ - Outputs the returned value to the template (default: _true_)
+3. `$echo`: _`Boolean`_ - Outputs the returned value to the template (default: _`true`_)
 
 __Returns__:
 
