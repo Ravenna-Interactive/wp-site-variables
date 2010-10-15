@@ -5,7 +5,7 @@ Plugin URI: http://ravennainteractive.com
 Description: Allows a template of variables
 Version: 0.1
 Author: Beau Collins
-Author URI: http://ravennainteracive.com
+Author URI: http://github.com/Ravenna-Interacive/wp-site-variables
 License: GPL2
 */
 
@@ -29,9 +29,15 @@ function multivars_init() {
 
 add_action('init', 'multivars_init');
 
-function multivar_value($name, $default = '', $echo = true) {
+function multivar_value($name, $default = nil, $echo = true) {
   
   global $multivars_variables;
+  
+  $variable = $multivars_variables->variableFor($name);
+  
+  if($default == nil){
+    $default = $variable['default_value'];
+  }
   
   $value = $multivars_variables->valueFor($name);
   if(empty($value)){
@@ -283,6 +289,9 @@ function multivars_options(){
               <label for="multivar_<?php echo $variable['id'] ?>"><p><?php echo $variable['description'] ?></p></label>
             <?php endif; ?>
             <textarea id="multivar_<?php echo $variable['id'] ?>" name="multivars[<?php echo $variable['id'] ;?>]" cols="70" rows="3"><?php echo $multivars_variables->valueFor(intval($variable['id'])) ;?></textarea>
+            <?php if(!empty($variable['default_value'])): ?>
+              <label for="multivar_<?php echo $variable['id'] ?>"><p><strong>Default Value</strong>: <?php echo $variable['default_value'] ?></p></label>
+            <?php endif; ?>
           </td>
         </tr>
         <?php endforeach; ?>
@@ -329,9 +338,7 @@ register_deactivation_hook(__FILE__, 'multivars_uninstall');
 
 function multivars_uninstall(){
   global $wpdb, $multivars_table_name;
-  
-  error_log("Deactivating plugin");
-  
+    
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
   $wpdb->query("DROP TABLE " . $multivars_table_name);
 }

@@ -63,9 +63,17 @@ class MultiVarVariables {
   }
   
   function idForName($name){
+    $variable = $this->variableFor($name);
+    if($variable){
+      return intval($variable['id']);
+    }
+    return false;
+  }
+  
+  function variableFor($name){
     foreach ($this->all() as $index => $variable) {
       if (strtoupper($variable['key_name']) == strtoupper($name)) {
-        return intval($variable['id']);
+        return $variable;
       }
     }
     return false;
@@ -95,7 +103,8 @@ class MultiVarVariables {
   }
   
   function save(){
-    add_option($this->option_name, $this->values);
+    $o = var_export($this->values(), true);
+    update_option($this->option_name, $this->values());
   }
   
 }
