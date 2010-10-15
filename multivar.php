@@ -3,7 +3,7 @@
 Plugin Name: Multisite Variables
 Plugin URI: http://ravennainteractive.com
 Description: Allows a template of variables
-Version: 0.1
+Version: 1.0
 Author: Beau Collins
 Author URI: http://github.com/Ravenna-Interacive/wp-site-variables
 License: GPL2
