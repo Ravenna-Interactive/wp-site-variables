@@ -318,7 +318,6 @@ function multivars_install(){
       require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
       dbDelta($sql);
       
-      $rows_affected = $wpdb->insert( $multivars_table_name, array( 'key_name' => 'Awesome', 'description' => 'Is it awesome?', 'default_value' => 'Awesome' ) );
             
     
   } else {
