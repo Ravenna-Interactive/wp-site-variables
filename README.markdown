@@ -22,6 +22,26 @@ Site Variables__ menu.
 Once variables are defined. Site admins can configure the values for these
 variables by using the "Settings -> Site Variables" menu item.
 
+### Usage
+
+#### Shortcode
+
+In blog posts and pages the shortcode _`var`_ can be used to include the variable as configured for
+that site. If a variable with the name _`Title`_ has been given the value _`Super Awesome Title`_
+for that blog then using this shortcode:
+
+    The title of this site is [var name='Title'].
+    
+Will generate the output:
+
+    The title of this site is Super Awesome Title.
+    
+You can also provide a default value if no value has been configured for the blog:
+
+    [var name='Title' default='No Title Given']
+
+#### Template Tag
+
 Use this template tag to use the variables in your theme:
 
     <?php multivars_value('Variable Name'); ?>

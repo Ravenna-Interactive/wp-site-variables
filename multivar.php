@@ -48,8 +48,14 @@ function multivar_value($name, $default = nil, $echo = true) {
   
   return $value;
   
-  
 }
+
+function multivar_short_code($atts) {
+  
+	return multivar_value($atts['name'], (empty($atts['default']) ? null : $atts['default'] ), false);
+}
+add_shortcode('var', 'multivar_short_code');
+
 
 
 function multivars_template_menu(){
