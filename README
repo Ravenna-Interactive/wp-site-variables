@@ -3,9 +3,13 @@ A WordPress Plugin ============================================
 Allows a multisite install to provide site defined variables that can be used
 throughout the site.
 
-After installing for the plugin to function the Network Admin can define a
+Download the zip, unzipped and upload the wp-site-variables directory to your wp-content/plugins
+directory for your WordPress installation. After the plugin is uploaded go to the plugin management
+page and click on "Network Activate".
+
+After installing he Network Admin can define a
 list of variables that can be configured for each site. This can be configured
-by using the "Super Admin -> Site Variables" menu in the admin.
+by using the "Super Admin -> Site Variables" menu.
 
 Once variables are defined. Site admins can configure the values for these
 variables by using the "Settings -> Site Variables" menu item.
