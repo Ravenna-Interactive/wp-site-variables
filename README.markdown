@@ -3,6 +3,12 @@
 Allows a multisite install to provide site defined variables that can be used
 throughout the network sites.
 
+Site: [http://github.com/Ravenna-Interacive/wp-site-variables](http://github.com/Ravenna-Interacive/wp-site-variables)
+
+### Download
+
+Plugin can be downloaded on the [Github Downloads Page](http://github.com/Ravenna-Interactive/wp-site-variables/archives/master).
+
 ### Installation
 
 Download the zip, unzipped and upload the wp-site-variables directory to your
