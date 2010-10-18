@@ -68,42 +68,44 @@ function multivars_template_menu(){
 function multivars_admin_save(){
   global $multivars_table_name, $multivars_variables, $wpdb;
   
-  if ( ! current_user_can( 'manage_network_options' ) )
-    wp_die( __( 'You do not have permission to access this page.' ) );
-  
-  
-  if ( $_POST['action'] == 'multivars_save_variables' ){
+  if ( $_GET['page'] == 'multivars ') {
+    if ( ! current_user_can( 'manage_network_options' ) )
+      wp_die( __( 'You do not have permission to access this page.' ) );
     
-    $errors = array();
-    
-    foreach($_POST['sitevariables'] as $id => $variable){
-      // validate the values
-      
-      if($multivars_variables->valid($variable)){
-        if ( preg_match('/new/', $id) ) {
-          $wpdb->insert($multivars_table_name, $variable);
+    if ( $_POST['action'] == 'multivars_save_variables' ){
+
+      $errors = array();
+
+      foreach($_POST['sitevariables'] as $id => $variable){
+        // validate the values
+
+        if($multivars_variables->valid($variable)){
+          if ( preg_match('/new/', $id) ) {
+            $wpdb->insert($multivars_table_name, $variable);
+          }else{
+            $wpdb->update($multivars_table_name, $variable, array('id' => $id));
+          }
         }else{
-          $wpdb->update($multivars_table_name, $variable, array('id' => $id));
+          array_push($errors, $variable);
         }
-      }else{
-        array_push($errors, $variable);
+
       }
-      
+
+      wp_redirect( add_query_arg( array( 'updated' => 'true' ), wp_get_referer() ) );
+      exit;
     }
-    
-    wp_redirect( add_query_arg( array( 'updated' => 'true' ), wp_get_referer() ) );
-    exit;
   }
+  
 }
 
 function multivars_options_save(){
   global $multivars_table_name, $multivars_variables, $wpdb;
   
-  if ( ! current_user_can( 'manage_options' ) )
-    wp_die( __( 'You do not have permission to access this page.' ) );
-  
-  
   if ($_GET['page'] == 'multivars-values') {
+    
+    if ( ! current_user_can( 'manage_options' ) )
+      wp_die( __( 'You do not have permission to access this page.' ) );
+    
     if ( $_POST['action'] == 'save_changes') {
       
       foreach ($_POST['multivars'] as $id => $value) {
